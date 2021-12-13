@@ -160,7 +160,7 @@ python examples/detect_ipcam.py --model PATH/TO/MODEL --ip CAMERA_IP --port STRE
 ## Detection Results
 
 <div>
-  <a href="https://youtu.be/FK4kqej6t5Q"><img src='data/output/monkey_detection.gif' alt="Monkey Detection Object Detection"></a>
+  <a href="https://youtu.be/FK4kqej6t5Q"><img src='data/outputs/monkey_detection.gif' alt="Monkey Detection Object Detection"></a>
 </div>
 
 ## Contributions
