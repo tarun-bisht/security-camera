@@ -1,6 +1,6 @@
 import json
 from absl.flags import FLAGS
-from category import read_label_pbtxt
+from src.category import read_label_pbtxt
 
 
 def get_security_cam_arguments(flag: FLAGS) -> tuple:

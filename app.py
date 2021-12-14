@@ -48,6 +48,7 @@ def main(_argv):
     record_path = args.get("recording_save_path")
     recipients = args.get("send_mail_to")
     neglect_categories = args.get("neglect_categories")
+    tf.keras.backend.clear_session()
     model = tf.saved_model.load(args.get("model"))
     logging.info("...model loaded...")
 

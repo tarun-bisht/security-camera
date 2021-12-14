@@ -3,11 +3,11 @@ import time
 import cv2
 import tensorflow as tf
 import numpy as np
-from object_detection.utils import visualization_utils
-from utils.category import theft_category_index
+from src.category import read_label_pbtxt
+from src.utils import draw_boxes
 from absl import app, flags, logging
 from absl.flags import FLAGS
-from utils.utility import VideoStream
+from src.utility import VideoStream
 
 flags.DEFINE_string("model", None, "path to model inference graph")
 flags.DEFINE_string("output", "data/outputs/ipcam_output.avi", "path to output video")
@@ -20,14 +20,13 @@ flags.DEFINE_string("password", None, "Password to access camera stream")
 def main(_argv):
     flags.mark_flag_as_required("model")
     flags.mark_flag_as_required("ip")
+    flags.mark_flag_as_required("labels")
+
+    labels = read_label_pbtxt(FLAGS.labels)
 
     stream_url = f"rtsp://{FLAGS.ip}:{FLAGS.port}/h264_ulaw.sdp"
     if FLAGS.username and FLAGS.password:
         stream_url = f"rtsp://{FLAGS.username}:{FLAGS.password}@{FLAGS.ip}:{FLAGS.port}/h264_ulaw.sdp"
-
-    physical_devices = tf.config.experimental.list_physical_devices("GPU")
-    for physical_device in physical_devices:
-        tf.config.experimental.set_memory_growth(physical_device, True)
 
     start_time = time.time()
     model = tf.saved_model.load(FLAGS.model)
@@ -55,16 +54,15 @@ def main(_argv):
         classes = detections["detection_classes"][0].numpy().astype(np.int32)
         scores = detections["detection_scores"][0].numpy()
 
-        output_image = visualization_utils.visualize_boxes_and_labels_on_image_array(
+        output_image = draw_boxes(
             img.copy(),
             boxes,
             classes,
             scores,
-            theft_category_index,
-            use_normalized_coordinates=True,
-            max_boxes_to_draw=200,
-            min_score_thresh=0.6,
-            agnostic_mode=False,
+            labels,
+            height,
+            width,
+            min_threshold=FLAGS.threshold,
         )
         cv2.imshow("Object Detection", cv2.resize(output_image, (800, 600)))
         if out:

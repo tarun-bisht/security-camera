@@ -3,12 +3,13 @@ import time
 import cv2
 import tensorflow as tf
 import numpy as np
-from utils.utility import draw_boxes
-from utils.category import theft_category_index
+from src.utils import draw_boxes
+from src.category import read_label_pbtxt
 from absl import app, flags, logging
 from absl.flags import FLAGS
 
 flags.DEFINE_string("model", None, "path to model inference graph")
+flags.DEFINE_string("labels", None, "path to labels.txt file with detection classes")
 flags.DEFINE_string("output", "data/outputs/cam_output.avi", "path to output video")
 flags.DEFINE_integer("cam", 0, "camera number or id to access")
 flags.DEFINE_float("threshold", 0.5, "detection threshold")
@@ -16,10 +17,9 @@ flags.DEFINE_float("threshold", 0.5, "detection threshold")
 
 def main(_argv):
     flags.mark_flag_as_required("model")
+    flags.mark_flag_as_required("labels")
 
-    physical_devices = tf.config.experimental.list_physical_devices("GPU")
-    for physical_device in physical_devices:
-        tf.config.experimental.set_memory_growth(physical_device, True)
+    labels = read_label_pbtxt(FLAGS.labels)
 
     start_time = time.time()
     model = tf.saved_model.load(FLAGS.model)
@@ -52,7 +52,7 @@ def main(_argv):
             boxes,
             classes,
             scores,
-            theft_category_index,
+            labels,
             height,
             width,
             min_threshold=FLAGS.threshold,

@@ -6,7 +6,7 @@ Security camera application powered by AI. It uses live video stream from camera
 
 ### System
 
-System requirements depends on complexity or size of object detection model, larger model will require more compute power and will be good at detection. I have used this in a raspberry pi 3b with a pi camera using mobilenet backbone and it gave around 1-2 fps. For final implementation tflite model was used with pi which boost fps of application. With my Nvidia Geforce 940 MX GPU based system it is giving around 30 fps with mobilenet backbone. So here is tradeoff between compute power and accuracy.
+System requirements depends on complexity or size of object detection model, larger model will require more compute power and will be good at detection. I have used this in a raspberry pi 3b with a pi camera using mobilenet backbone and it gave around 1-2 fps. For final implementation tflite model was used with pi which boost fps of application. With my Nvidia Geforce 940 MX GPU based system it is giving around 20-30 fps with mobilenet backbone. So here is tradeoff between compute power and accuracy.
 
 ### Python 3
 

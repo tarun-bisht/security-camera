@@ -72,7 +72,6 @@ def preprocess_input(image: np.array) -> np.array:
         np.array: preprocesses image as numpy array
     """
     processed = (2.0 / 255.0) * image - 1.0
-    processed = np.expand_dims(processed, axis=0)
     return processed.astype(np.float32)
 
 
