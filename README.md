@@ -157,6 +157,10 @@ Run this example script to detect objects in a rtsp streaming.
 python examples/detect_ipcam.py --model PATH/TO/MODEL --ip CAMERA_IP --port STREAMING_PORT --username USERNAME_IF_NEEDED --password PASSWORD_IF_NEEDED  --output PATH/TO/SAVE/OUTPUT/VIDEO
 ```
 
+## Training detector for new objects
+
+Instructions for training along with training scripts can be found in this [repository](https://github.com/tarun-bisht/tensorflow-object-detection)
+
 ## Detection Results
 
 <div>
