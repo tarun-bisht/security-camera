@@ -64,15 +64,31 @@ def load_labels(path: str) -> dict:
 
 def preprocess_input(image: np.array) -> np.array:
     """preprocess image function
-
     Args:
         image (np.array): image as numpy array
-
     Returns:
         np.array: preprocesses image as numpy array
     """
-    processed = (2.0 / 255.0) * image - 1.0
-    return processed.astype(np.float32)
+    image = image.astype(np.float32)
+    if image.shape[2] == 3:
+        channel_means = [123.68, 116.779, 103.939]
+        return (image - [[channel_means]]).astype(np.float32)
+    else:
+        return image.astype(np.float32)
+
+
+def deprocess_image(preprocessed_image: np.array) -> np.array:
+    """deprocess image function
+    Args:
+        preprocessed_image (np.array): preprocessed image as numpy array
+    Returns:
+        np.array: deprocessed image as numpy array
+    """
+    if preprocessed_image.shape[2] == 3:
+        channel_means = [123.68, 116.779, 103.939]
+        return (preprocessed_image + [[channel_means]]).astype(np.uint8)
+    else:
+        return preprocessed_image.astype(np.uint8)
 
 
 def get_category_index(
